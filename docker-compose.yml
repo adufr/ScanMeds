@@ -1,6 +1,8 @@
 version: '3.7'
 
 networks:
+  frontend:
+    driver: bridge
   backend:
     driver: bridge
     
@@ -19,6 +21,7 @@ services:
     ports:
       - "3000:3000"
     networks:
+      - frontend
       - backend
     environment:
       - ENV=development
@@ -41,3 +44,25 @@ services:
       MONGO_INITDB_DATABASE: scanmeds
       MONGO_INITDB_ROOT_USERNAME: username
       MONGO_INITDB_ROOT_PASSWORD: password
+
+  front:
+    container_name: scanmeds-front
+    hostname: scanmeds-front
+    build: 
+      context: ./ScanMeds-front
+      dockerfile: Dockerfile
+    image: scanmeds-front:1.0.0
+    restart: on-failure
+    volumes:
+      - ./ScanMeds-front:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8080:8080"
+    networks:
+      - frontend
+    environment:
+      - ENV=development
+    depends_on:
+      - server
+    command: npm run serve
+      
