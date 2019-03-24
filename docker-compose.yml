@@ -11,12 +11,12 @@ services:
     container_name: scanmeds-api
     hostname: scanmeds-api
     build: 
-      context: ./ScanMeds-api
+      context: ./server
       dockerfile: Dockerfile
     image: scanmeds-api:1.0.0
     restart: on-failure
     volumes:
-      - ./ScanMeds-api:/usr/src/app
+      - ./server:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - "3000:3000"
@@ -49,12 +49,12 @@ services:
     container_name: scanmeds-front
     hostname: scanmeds-front
     build: 
-      context: ./ScanMeds-front
+      context: ./front
       dockerfile: Dockerfile
     image: scanmeds-front:1.0.0
     restart: on-failure
     volumes:
-      - ./ScanMeds-front:/usr/src/app
+      - ./front:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - "8080:8080"
