@@ -1,0 +1,16 @@
+# app dependencies
+node_modules/
+
+# editor configuration
+.vscode/
+.idea/
+api-boilerplate.iml
+
+# mongodb data
+data/
+
+# config
+.env
+
+# documentation
+doc/

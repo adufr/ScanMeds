@@ -1,0 +1,43 @@
+version: '3.7'
+
+networks:
+  backend:
+    driver: bridge
+    
+services:
+  server:
+    container_name: scanmeds-api
+    hostname: scanmeds-api
+    build: 
+      context: ./ScanMeds-api
+      dockerfile: Dockerfile
+    image: scanmeds-api:1.0.0
+    restart: on-failure
+    volumes:
+      - ./ScanMeds-api:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+    environment:
+      - ENV=development
+    depends_on:
+      - database
+    command: npm run dev
+
+  database:
+    container_name: scanmeds-database
+    hostname: scanmeds-database
+    image: mongo:3.6
+    restart: on-failure
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+    environment:
+      MONGO_INITDB_DATABASE: scanmeds
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
