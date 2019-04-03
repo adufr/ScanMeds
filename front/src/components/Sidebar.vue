@@ -1,10 +1,15 @@
 <template>
-  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
+  <ul
+    id="accordionSidebar"
+    class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+  >
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+    <a
+      class="sidebar-brand d-flex align-items-center justify-content-center"
+      href="/"
+    >
       <div class="sidebar-brand-icon rotate-n-15">
-        <i class="fas fa-laugh-wink"></i>
+        <i class="fas fa-laugh-wink" />
       </div>
       <div class="sidebar-brand-text mx-3">ScanMeds</div>
     </a>
@@ -13,8 +18,11 @@
     <hr class="sidebar-divider my-0">
 
     <li class="nav-item">
-      <a class="nav-link" href="/dashboard">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
+      <a
+        class="nav-link"
+        href="/dashboard"
+      >
+        <i class="fas fa-fw fa-tachometer-alt" />
         <span>Tableau de bord</span></a>
     </li>
 
@@ -23,9 +31,11 @@
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
-      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      <button
+        id="sidebarToggle"
+        class="rounded-circle border-0"
+      />
     </div>
-
   </ul>
 </template>
 
@@ -33,7 +43,10 @@
 export default {
   name: 'Sidebar',
   props: {
-    msg: String
+    msg: {
+      type: String,
+      default: ''
+    }
   }
 }
 </script>

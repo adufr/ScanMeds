@@ -1,34 +1,23 @@
 <template>
   <div class="test">
-
-
-
     <div id="wrapper">
+      <Sidebar />
 
-        <sidebar></sidebar>
-    
-        <div id="content-wrapper" class="d-flex flex-column">
-    
-          <navbar></navbar>
+      <div
+        id="content-wrapper"
+        class="d-flex flex-column"
+      >
+        <Navbar />
 
-          <!-- Main Content -->
-          <div id="content">
-    
-            <!-- End of Topbar -->
-    
-            <div class="container-fluid">
+        <div id="content">
+          <div class="container-fluid">
             <!-- TODO: CONTENT -->
-            </div>
-    
           </div>
-          <!-- End of Main Content -->
-    
-          <footer></footer>
-
         </div>
-    
-      </div>
 
+        <Footer />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,11 +27,11 @@ import Navbar from '../components/Navbar.vue'
 import Footer from '../components/Footer.vue'
 
 export default {
-  name: 'test',
+  name: 'Dashboard',
   components: {
-    'sidebar': Sidebar,
-    'navbar': Navbar,
-    'footer': Footer
+    Sidebar,
+    Navbar,
+    Footer
   }
 }
 </script>

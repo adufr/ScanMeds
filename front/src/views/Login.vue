@@ -1,59 +1,82 @@
 <template>
   <div class="container">
     <div class="row">
-
       <div class="split left">
         <div class="centered">
           <div class="col">
-            <img src="@/assets/office-woman.png" alt="Femme travaillant sur un ordinateur" class="img img-fluid">
+            <img
+              src="@/assets/office-woman.png"
+              alt="Femme travaillant sur un ordinateur"
+              class="img img-fluid"
+            >>
           </div>
         </div>
       </div>
 
       <div class="split right">
         <div class="centered">
-
-          <div class="form-group">
-
+          <form
+            class="form-group"
+            @submit="checkForm()"
+          >
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text form-input" style="height: 30px"><i class="fas fa-envelope"></i></span>
+                <span
+                  class="input-group-text form-input"
+                  style="height: 30px"
+                ><i class="fas fa-envelope" /></span>
               </div>
-              <input type="email" class="form-control form-input" placeholder="Adresse mail" v-model="email">
+              <input
+                v-model="email"
+                type="email"
+                class="form-control form-input"
+                placeholder="Adresse mail"
+              >>
             </div>
 
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text form-input" style="height: 30px"><i class="fas fa-lock"></i></span>
+                <span
+                  class="input-group-text form-input"
+                  style="height: 30px"
+                ><i class="fas fa-lock" /></span>
               </div>
-              <input type="password" class="form-control form-input" placeholder="Mot de passe" v-model="password">
+              <input
+                v-model="password"
+                type="password"
+                class="form-control form-input"
+                placeholder="Mot de passe"
+              >>
             </div>
-            
-            <button type="button" class="btn btn-primary btn-login" @click="login()">Se connecter</button>
 
-          </div>
-
+            <button
+              type="submit"
+              class="btn btn-primary btn-login"
+              @click="login()"
+            >
+              Se connecter
+            </button>
+          </form>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       email: '',
-      password: '' 
+      password: ''
     }
   },
   methods: {
-    login() {
+    login () {
       console.log('please login')
       this.$http.post('http://localhost:3001/api/v1/auth', { email: this.email, password: this.password })
         .then((response) => {
-          this.accessToken = response.body.accessToken  
+          this.accessToken = response.body.accessToken
         }, (error) => {
           console.error(error)
         })
