@@ -271,6 +271,7 @@
             href="#"
             data-toggle="modal"
             data-target="#logoutModal"
+            @click="logout"
           >
             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" />
             Logout
@@ -282,12 +283,25 @@
 </template>
 
 <script>
+import router from '../router'
+
 export default {
   name: 'Navbar',
   props: {
     msg: {
       type: String,
       default: ''
+    }
+  },
+  mounted () {
+    if (!this.$store.getters.isLoggedIn) {
+      router.push('/')
+    }
+  },
+  methods: {
+    logout: function () {
+      this.$store.dispatch('logout')
+      router.push('/')
     }
   }
 }

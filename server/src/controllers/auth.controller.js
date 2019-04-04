@@ -1,10 +1,13 @@
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const jwtSecret = require('../config/config').jwt.secret
+const User = require('../models/user.model')
 
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
+  const _userId = req.body.userId
+
   // creating an access token from user's id and jwt's secret
-  const refreshId = req.body.userId + jwtSecret
+  const refreshId = _userId + jwtSecret
   const salt = crypto.randomBytes(16).toString('base64')
   const hash = crypto.createHmac('sha512', salt).update(refreshId).digest('base64')
   req.body.refreshKey = salt
@@ -12,7 +15,12 @@ exports.login = (req, res) => {
   const b = Buffer.from(hash)
   const refreshToken = b.toString('base64')
 
+  const user = await User.findById(_userId)
+    .select('firstname lastname')
+    .lean()
+
   res.status(201).json({
+    user,
     accessToken: token,
     refreshToken
   })

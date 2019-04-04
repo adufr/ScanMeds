@@ -8,16 +8,33 @@
               src="@/assets/office-woman.png"
               alt="Femme travaillant sur un ordinateur"
               class="img img-fluid"
-            >>
+            >
           </div>
         </div>
       </div>
 
       <div class="split right">
         <div class="centered">
+          <div
+            v-for="(error, index) in errors"
+            :key="index"
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            {{ error }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          
           <form
             class="form-group"
-            @submit="checkForm()"
+            @submit.prevent="login"
           >
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -29,9 +46,10 @@
               <input
                 v-model="email"
                 type="email"
+                required="true"
                 class="form-control form-input"
                 placeholder="Adresse mail"
-              >>
+              >
             </div>
 
             <div class="input-group mb-3">
@@ -44,15 +62,15 @@
               <input
                 v-model="password"
                 type="password"
+                required="true"
                 class="form-control form-input"
                 placeholder="Mot de passe"
-              >>
+              >
             </div>
 
             <button
               type="submit"
               class="btn btn-primary btn-login"
-              @click="login()"
             >
               Se connecter
             </button>
@@ -64,22 +82,54 @@
 </template>
 
 <script>
+import router from '../router'
+
 export default {
   data () {
     return {
-      email: '',
-      password: ''
+      errors: [],
+      email: null,
+      password: null
+    }
+  },
+  mounted () {
+    // if user is already connected, send him directly to the dashboard
+    if (this.$store.getters.isLoggedIn) {
+      router.push('/dashboard')
     }
   },
   methods: {
-    login () {
-      console.log('please login')
-      this.$http.post('http://localhost:3001/api/v1/auth', { email: this.email, password: this.password })
-        .then((response) => {
-          this.accessToken = response.body.accessToken
-        }, (error) => {
-          console.error(error)
-        })
+    login: function () {
+      this.errors = []
+
+      if (!this.email) {
+        this.errors.push('Veuillez indiquer votre adresse mail')
+      }
+
+      if (!this.password) {
+        this.errors.push('Veuillez indiquer votre mot de passe')
+      }
+
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if (!re.test(String(this.email).toLowerCase())) {
+        this.errors.push("L'adresse mail indiquée est invalide")
+      }
+
+      // if there are errors, don't query the api
+      if (this.errors.length) return
+
+      // call the login route
+      this.$store.dispatch('login', { email: this.email, password: this.password }).then(() => {
+        router.push('/dashboard')
+      }).catch((err) => {
+        // TODO: be able to handle errors
+        // console.log(err)
+        if (err.status === 401) {
+          this.errors.push("Nom d'utilisateur ou mot de passe incorrect")
+        } else {
+          this.errors.push("Oups... Une erreur est survenue")
+        }
+      })
     }
   }
 }
@@ -130,8 +180,6 @@ img {
 .btn-login {
   height: 50px;
   width: 150px;
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a2bf59+0,61c419+100,93e256+100 */
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a2bf59+0,61c419+100,64e000+100 */
 /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#88e56b+0,61c419+100,64e000+100 */
 background: #88e56b; /* Old browsers */
 background: -moz-linear-gradient(left, #88e56b 0%, #61c419 100%, #64e000 100%); /* FF3.6-15 */
