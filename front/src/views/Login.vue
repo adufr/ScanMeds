@@ -5,7 +5,7 @@
         <div class="centered">
           <div class="col">
             <img
-              src="@/assets/office-woman.png"
+              src="@/assets/doctor.jpg"
               alt="Femme travaillant sur un ordinateur"
               class="img img-fluid"
             >
@@ -149,7 +149,7 @@ export default {
 
 .left {
   left: 0;
-  background-color: rgb(219, 255, 185);
+  background-color: #C6E2ED
 }
 
 .right {
@@ -180,12 +180,7 @@ img {
 .btn-login {
   height: 50px;
   width: 150px;
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#88e56b+0,61c419+100,64e000+100 */
-background: #88e56b; /* Old browsers */
-background: -moz-linear-gradient(left, #88e56b 0%, #61c419 100%, #64e000 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(left, #88e56b 0%,#61c419 100%,#64e000 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to right, #88e56b 0%,#61c419 100%,#64e000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#88e56b', endColorstr='#64e000',GradientType=1 ); /* IE6-9 */
-border: none;
+  background-image: linear-gradient(to right top, #639bc0, #558eb2, #4781a5, #397497, #2a688a);
+  border: none;
 }
 </style>
