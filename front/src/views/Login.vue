@@ -122,12 +122,14 @@ export default {
       this.$store.dispatch('login', { email: this.email, password: this.password }).then(() => {
         router.push('/dashboard')
       }).catch((err) => {
-        // TODO: be able to handle errors
-        // console.log(err)
-        if (err.status === 401) {
-          this.errors.push("Nom d'utilisateur ou mot de passe incorrect")
-        } else {
-          this.errors.push("Oups... Une erreur est survenue")
+        switch (err.response.status) {
+          case 401:
+          case 404: 
+            this.errors.push("Nom d'utilisateur ou mot de passe incorrect")
+            break
+          default: 
+            this.errors.push("Oups... Une erreur est survenue")
+            break
         }
       })
     }
