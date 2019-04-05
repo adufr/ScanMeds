@@ -24,8 +24,8 @@ module.exports.seedData = async function seedData () {
     // users
     const user1 = new User({
       username: 'John',
-      email: 'johndoe@gmail.com',
-      password: bcrypt.hashSync('password', 10),
+      email: 'test@mail.com',
+      password: bcrypt.hashSync('123', 10),
       firstname: 'John',
       lastname: 'Doe'
     })
