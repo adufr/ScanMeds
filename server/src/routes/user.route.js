@@ -10,11 +10,30 @@ const FREE = 1
 
 const router = express.Router()
 
+// ================================
+// == No authentication required
+// ================================
+
+// Checks if username is taken
+router.get('/isUsernameTaken/:username', [
+  UserController.isUsernameTaken
+])
+
+// Checks if email is taken
+router.get('/isEmailTaken/:email', [
+  UserController.isEmailTaken
+])
+
+// Create a user (register)
 router.post('/', [
   UserVerificationMiddleware.hasRegisterValidFields,
   UserVerificationMiddleware.isEmailOrUsernameNotInUse,
   UserController.create
 ])
+
+// ================================
+// == Authentication required
+// ================================
 
 router.get('/users', [
   ValidationMiddleware.validJWTNeeded,

@@ -15,6 +15,11 @@
 
       <div class="split right roboto">
         <div class="centered">
+
+          <h1 class="title">{{ form === 'login' ? 'Connexion' : 'Inscription' }}</h1>
+
+          <hr>
+
           <div
             v-for="(error, index) in errors"
             :key="index"
@@ -39,10 +44,8 @@
             v-if="form === 'login'"
             class="form-group"
             @submit.prevent="login"
+            novalidate="true"
           >
-            <h1 class="title">Connexion</h1>
-
-            <hr>
 
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -78,7 +81,8 @@
 
             <button
               type="submit"
-              class="btn btn-primary btn-login"
+              class="btn btn-primary"
+              :disabled="!checkForm"
             >
               <i class="fas fa-sign-in-alt fa-spacer"></i>
               Se connecter
@@ -101,10 +105,6 @@
             class="form-group"
             @submit.prevent="register"
           >
-            <h1 class="title">Inscription</h1>
-
-            <hr>
-
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span
@@ -113,29 +113,13 @@
                 ><i class="fas fa-user"></i></span>
               </div>
               <input
-                v-model="firstname"
-                :class="{ 'is-invalid': !isValidFirstname, 'is-valid': isValidFirstname }"
+                v-model="username"
+                @change="isUsernameTaken"
+                :class="{ 'is-invalid': !isValidUsername, 'is-valid': isValidUsername }"
                 type="text"
                 required="true"
                 class="form-control form-input"
-                placeholder="Prénom"
-              >
-            </div>
-
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span
-                  class="input-group-text form-input"
-                  style="height: 30px"
-                ><i class="fas fa-user" /></span>
-              </div>
-              <input
-                v-model="lastname"
-                :class="{ 'is-invalid': !isValidLastname, 'is-valid': isValidLastname }"
-                type="text"
-                required="true"
-                class="form-control form-input"
-                placeholder="Nom"
+                placeholder="Nom d'utilisateur"
               >
             </div>
 
@@ -148,6 +132,7 @@
               </div>
               <input
                 v-model="email"
+                @change="isEmailTaken"
                 :class="{ 'is-invalid': !isValidEmail, 'is-valid': isValidEmail }"
                 type="email"
                 required="true"
@@ -173,9 +158,27 @@
               >
             </div>
 
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span
+                  class="input-group-text form-input"
+                  style="height: 30px"
+                ><i class="fas fa-lock" /></span>
+              </div>
+              <input
+                v-model="password2"
+                :class="{ 'is-invalid': !isValidPassword2, 'is-valid': isValidPassword2 }"
+                type="password"
+                required="true"
+                class="form-control form-input"
+                placeholder="Confirmation mot de passe"
+              >
+            </div>
+
             <button
               type="submit"
-              class="btn btn-primary btn-login"
+              class="btn btn-primary"
+              :disabled="!checkForm"
             >
               <i class="fas fa-user-plus fa-spacer"></i>
               S'inscrire
@@ -200,10 +203,15 @@ export default {
   data () {
     return {
       errors: [],
-      firstname: null,
-      lastname: null,
+      // form inputs
+      username: null,
       email: null,
       password: null,
+      password2: null,
+      // validators
+      emailIsUnique: false,
+      usernameIsUnique: false,
+      // tab management
       form: 'login'
     }
   },
@@ -214,23 +222,12 @@ export default {
     }
   },
   methods: {
+    // Tries to login a user
     login: function () {
       this.errors = []
 
-      if (!this.email) {
-        this.errors.push('Veuillez indiquer votre adresse mail')
-      }
-
-      if (!this.password) {
-        this.errors.push('Veuillez indiquer votre mot de passe')
-      }
-
-      if (!this.isValidEmail) {
-        this.errors.push("L'adresse mail indiquée est invalide")
-      }
-
-      // if there are errors, don't query the api
-      if (this.errors.length) return
+      if (!this.email) return this.errors.push('Veuillez indiquer votre adresse mail')
+      if (!this.password) return this.errors.push('Veuillez indiquer votre mot de passe')
 
       // call the login route
       this.$store.dispatch('login', { email: this.email, password: this.password }).then(() => {
@@ -239,34 +236,116 @@ export default {
         switch (err.response.status) {
           case 401:
           case 404: 
-            this.errors.push("Nom d'utilisateur ou mot de passe incorrect")
+            this.errors.push("Nom d'utilisateur et/ou mot de passe incorrect")
             break
           default: 
             this.errors.push("Oups... Une erreur est survenue")
             break
         }
       })
+    },
+    register: async function () {
+      this.errors = []
+
+      if (!this.email) return this.errors.push('Veuillez indiquer votre adresse mail')
+      if (!this.password) return this.errors.push('Veuillez indiquer votre mot de passe')
+      if (this.password.length < 6) return this.errors.push('Votre mot de passe doit contenir au moins 6 caractères')
+      if (!this.password2) return this.errors.push('Veuillez confirmer votre mot de passe')
+      if (this.password !== this.password2) return this.errors.push('Les deux mots de passe ne sont pas identiques')
+      this.isUsernameTaken()
+      this.isEmailTaken()
+
+      if (this.errors.length) return
+
+      const data = {
+        email: this.email,
+        username: this.username,
+        password: this.password,
+        password2: this.password2,
+      }
+
+      // call the register route
+      await this.$http.post('http://localhost:3000/api/v1/user', data).then((res) => {
+        // once the user is registered 
+        // try to login him
+        this.$store.dispatch('login', { email: this.email, password: this.password }).then(() => {
+          router.push('/dashboard')
+        }).catch((err) => {
+          this.errors.push("Oups... Une erreur est survenue")
+        })
+      }).catch((err) => {
+        console.log(err.response)
+        this.errors = err.response.data.errors
+      })
+     
+    },
+    // Checks if an username is already used or not
+    isUsernameTaken: async function () {
+      if (!this.username) return
+
+      const error = "Nom d'utilisateur indisponible"
+      
+      if (this.errors.includes(error)) {
+        const index = this.errors.indexOf(error)
+        this.errors.splice(index, 1)
+      }
+      
+      await this.$http.get(`http://localhost:3000/api/v1/user/isUsernameTaken/${this.username}`).then((res) => {
+        const result = res.data.result
+        if (result) this.errors.push(error)
+        this.usernameIsUnique = !result
+      })
+    },
+    // Checks if an email adresse is already used or not
+    isEmailTaken: async function () {
+      if (!this.email) return
+
+      const error = 'Adresse mail indisponible'
+      
+      if (this.errors.includes(error)) {
+        const index = this.errors.indexOf(error)
+        this.errors.splice(index, 1)
+      }
+      
+      await this.$http.get(`http://localhost:3000/api/v1/user/isEmailTaken/${this.email}`).then((res) => {
+        const result = res.data.result
+        if (result) this.errors.push(error)
+        this.emailIsUnique = !result
+      })
     }
   },
   computed: {
-    isValidFirstname: function () {
-      return this.firstname && this.firstname.length > 2 
-    },
-    isValidLastname: function () {
-      return this.lastname && this.lastname.length > 2 
+    isValidUsername: function () {
+      return this.username && this.username.length > 2 && this.usernameIsUnique
     },
     isValidEmail: function () {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(String(this.email).toLowerCase())
+      return this.email && re.test(String(this.email).toLowerCase()) && this.emailIsUnique
     },
     isValidPassword: function () {
-      return this.password && this.password.length > 6
+      return this.password && this.password.length >= 6
+    },
+    isValidPassword2: function () {
+      return this.password2 && this.password2.length >= 6 && this.password === this.password2
+    },
+    // Validates the form
+    checkForm: function () {
+      if (this.form === 'login') {
+        return this.password && this.email
+      } else if (this.form === 'register') {
+        return this.isValidUsername && this.isValidEmail && this.isValidPassword && this.isValidPassword2
+      }
+      return false
     }
   }
 }
 </script>
 
 <style scoped>
+.alert {
+  text-align: left !important;
+}
+
 .roboto {
   font-family: 'Roboto', sans-serif !important;
 }
@@ -358,7 +437,7 @@ img {
   border: 1px solid #f0f0f0;
 }
 
-.btn-login {
+.btn {
   border: none;
   height: 50px;
   width: 175px;
@@ -366,7 +445,7 @@ img {
   background-color: #558eb2;
 }
 
-.btn-login:hover {
+.btn:hover {
   background-color: #326f95;
 }
 </style>
