@@ -16,7 +16,7 @@ exports.login = async (req, res) => {
   const refreshToken = b.toString('base64')
 
   const user = await User.findById(_userId)
-    .select('firstname lastname')
+    .select('firstname lastname username email')
     .lean()
 
   res.status(201).json({

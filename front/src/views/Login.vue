@@ -281,20 +281,6 @@ export default {
             break
         }
       })
-
-      // this.$store.dispatch('login', { email: this.email, password: this.password }).then(() => {
-      //   router.push('/dashboard')
-      // }).catch((err) => {
-      //   switch (err.response.status) {
-      //     case 401:
-      //     case 404: 
-      //       this.errors.push("Nom d'utilisateur et/ou mot de passe incorrect")
-      //       break
-      //     default: 
-      //       this.errors.push("Oups... Une erreur est survenue")
-      //       break
-      //   }
-      // })
     },
     register: async function () {
       this.errors = []
