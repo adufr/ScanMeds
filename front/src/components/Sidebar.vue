@@ -32,6 +32,7 @@
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
       <button
+        @click="toggleSidebar"
         id="sidebarToggle"
         class="rounded-circle border-0"
       />
@@ -46,6 +47,12 @@ export default {
     msg: {
       type: String,
       default: ''
+    }
+  },
+  methods: {
+    toggleSidebar: function () {
+      document.querySelector('body').classList.toggle('sidebar-toggled')
+      document.querySelector('.sidebar').classList.toggle('toggled')
     }
   }
 }

@@ -2,6 +2,7 @@
   <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     <!-- Sidebar Toggle (Topbar) -->
     <button
+      @click="toggleSidebar"
       id="sidebarToggleTop"
       class="btn btn-link d-md-none rounded-circle mr-3"
     >
@@ -302,6 +303,10 @@ export default {
     logout: function () {
       this.$store.dispatch('logout')
       router.push('/')
+    },
+    toggleSidebar: function () {
+      document.querySelector('body').classList.toggle('sidebar-toggled')
+      document.querySelector('.sidebar').classList.toggle('toggled')
     }
   }
 }
