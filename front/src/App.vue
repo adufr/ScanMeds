@@ -5,12 +5,16 @@
 </template>
 
 <script>
+import router from './router'
+
 export default {
   created: function () {
     this.$http.interceptors.response.use(undefined, function (err) {
       return new Promise(function (resolve, reject) {
         if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(logout)
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          router.push('/')
         }
         throw err;
       });

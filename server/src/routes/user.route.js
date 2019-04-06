@@ -36,8 +36,8 @@ router.post('/', [
 // ================================
 
 router.get('/users', [
-  ValidationMiddleware.validJWTNeeded,
-  PermissionMiddleware.minimumPermissionLevelRequired(FREE),
+  // ValidationMiddleware.validJWTNeeded,
+  // PermissionMiddleware.minimumPermissionLevelRequired(FREE),
   UserController.list
 ])
 

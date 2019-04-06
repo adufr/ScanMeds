@@ -15,8 +15,9 @@
 
       <div class="split right roboto">
         <div class="centered">
-
-          <h1 class="title">{{ form === 'login' ? 'Connexion' : 'Inscription' }}</h1>
+          <h1 class="title">
+            {{ form === 'login' ? 'Connexion' : 'Inscription' }}
+          </h1>
 
           <hr>
 
@@ -43,10 +44,9 @@
           <form
             v-if="form === 'login'"
             class="form-group"
-            @submit.prevent="login"
             novalidate="true"
+            @submit.prevent="login"
           >
-
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span
@@ -84,7 +84,7 @@
               class="btn btn-primary"
               :disabled="!checkForm"
             >
-              <i class="fas fa-sign-in-alt fa-spacer"></i>
+              <i class="fas fa-sign-in-alt fa-spacer" />
               Se connecter
             </button>
 
@@ -92,7 +92,10 @@
 
             <div class="text-center">
               <span class="small link">Mot de passe oublié ?</span>
-              <span @click="form = 'register'" class="small link">Créer un compte !</span>
+              <span
+                class="small link"
+                @click="form = 'register'"
+              >Créer un compte !</span>
             </div>
           </form>
 
@@ -110,16 +113,16 @@
                 <span
                   class="input-group-text form-input"
                   style="height: 30px"
-                ><i class="fas fa-user"></i></span>
+                ><i class="fas fa-user" /></span>
               </div>
               <input
                 v-model="username"
-                @change="isUsernameTaken"
                 :class="{ 'is-invalid': !isValidUsername, 'is-valid': isValidUsername }"
                 type="text"
                 required="true"
                 class="form-control form-input"
                 placeholder="Nom d'utilisateur"
+                @change="isUsernameTaken"
               >
             </div>
 
@@ -132,12 +135,12 @@
               </div>
               <input
                 v-model="email"
-                @change="isEmailTaken"
                 :class="{ 'is-invalid': !isValidEmail, 'is-valid': isValidEmail }"
                 type="email"
                 required="true"
                 class="form-control form-input"
                 placeholder="Adresse mail"
+                @change="isEmailTaken"
               >
             </div>
 
@@ -180,14 +183,17 @@
               class="btn btn-primary"
               :disabled="!checkForm"
             >
-              <i class="fas fa-user-plus fa-spacer"></i>
+              <i class="fas fa-user-plus fa-spacer" />
               S'inscrire
             </button>
 
             <hr>
 
             <div class="text-center">
-              <span @click="form = 'login'" class="small link">Vous avez déjà un compte ?</span>
+              <span
+                class="small link"
+                @click="form = 'login'"
+              >Vous avez déjà un compte ?</span>
             </div>
           </form>
         </div>
@@ -215,24 +221,56 @@ export default {
       form: 'login'
     }
   },
+  computed: {
+    isValidUsername: function () {
+      return this.username && this.username.length > 2 && this.usernameIsUnique
+    },
+    isValidEmail: function () {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return this.email && re.test(String(this.email).toLowerCase()) && this.emailIsUnique
+    },
+    isValidPassword: function () {
+      return this.password && this.password.length >= 6
+    },
+    isValidPassword2: function () {
+      return this.password2 && this.password2.length >= 6 && this.password === this.password2
+    },
+    // Validates the form
+    checkForm: function () {
+      if (this.form === 'login') {
+        return this.password && this.email
+      } else if (this.form === 'register') {
+        return this.isValidUsername && this.isValidEmail && this.isValidPassword && this.isValidPassword2
+      }
+      return false
+    }
+  },
   mounted () {
     // if user is already connected, send him directly to the dashboard
-    if (this.$store.getters.isLoggedIn) {
+    if (localStorage.getItem('token')) {
       router.push('/dashboard')
     }
   },
   methods: {
     // Tries to login a user
-    login: function () {
+    login: async function () {
       this.errors = []
 
       if (!this.email) return this.errors.push('Veuillez indiquer votre adresse mail')
       if (!this.password) return this.errors.push('Veuillez indiquer votre mot de passe')
 
+      const data = {
+        email: this.email,
+        password: this.password
+      }
+
       // call the login route
-      this.$store.dispatch('login', { email: this.email, password: this.password }).then(() => {
+      await this.$http.post('http://localhost:3000/api/v1/auth', data).then(res => {
+        localStorage.setItem('token', res.data.accessToken)
+        localStorage.setItem('user', JSON.stringify(res.data.user))
+        // redirect to dashboard
         router.push('/dashboard')
-      }).catch((err) => {
+      }).catch(err => {
         switch (err.response.status) {
           case 401:
           case 404: 
@@ -243,6 +281,20 @@ export default {
             break
         }
       })
+
+      // this.$store.dispatch('login', { email: this.email, password: this.password }).then(() => {
+      //   router.push('/dashboard')
+      // }).catch((err) => {
+      //   switch (err.response.status) {
+      //     case 401:
+      //     case 404: 
+      //       this.errors.push("Nom d'utilisateur et/ou mot de passe incorrect")
+      //       break
+      //     default: 
+      //       this.errors.push("Oups... Une erreur est survenue")
+      //       break
+      //   }
+      // })
     },
     register: async function () {
       this.errors = []
@@ -268,13 +320,8 @@ export default {
       await this.$http.post('http://localhost:3000/api/v1/user', data).then((res) => {
         // once the user is registered 
         // try to login him
-        this.$store.dispatch('login', { email: this.email, password: this.password }).then(() => {
-          router.push('/dashboard')
-        }).catch((err) => {
-          this.errors.push("Oups... Une erreur est survenue")
-        })
+        this.login()
       }).catch((err) => {
-        console.log(err.response)
         this.errors = err.response.data.errors
       })
      
@@ -312,30 +359,6 @@ export default {
         if (result) this.errors.push(error)
         this.emailIsUnique = !result
       })
-    }
-  },
-  computed: {
-    isValidUsername: function () {
-      return this.username && this.username.length > 2 && this.usernameIsUnique
-    },
-    isValidEmail: function () {
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return this.email && re.test(String(this.email).toLowerCase()) && this.emailIsUnique
-    },
-    isValidPassword: function () {
-      return this.password && this.password.length >= 6
-    },
-    isValidPassword2: function () {
-      return this.password2 && this.password2.length >= 6 && this.password === this.password2
-    },
-    // Validates the form
-    checkForm: function () {
-      if (this.form === 'login') {
-        return this.password && this.email
-      } else if (this.form === 'register') {
-        return this.isValidUsername && this.isValidEmail && this.isValidPassword && this.isValidPassword2
-      }
-      return false
     }
   }
 }

@@ -32,9 +32,9 @@
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
       <button
-        @click="toggleSidebar"
         id="sidebarToggle"
         class="rounded-circle border-0"
+        @click="toggleSidebar"
       />
     </div>
   </ul>
