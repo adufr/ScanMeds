@@ -1,4 +1,4 @@
-<template>
+<template class="roboto">
   <ul
     id="accordionSidebar"
     class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
@@ -14,7 +14,6 @@
       <div class="sidebar-brand-text mx-3">ScanMeds</div>
     </a>
 
-    <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <li class="nav-item">
@@ -26,7 +25,75 @@
         <span>Tableau de bord</span></a>
     </li>
 
-    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+      Médicaments
+    </div>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        href="charts.html"
+      >
+        <i class="fas fa-fw fa-search" />
+        <span>Rechercher</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link">
+        <i class="fas fa-fw fa-heart" />
+        <span>Médicaments favoris</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        href="charts.html"
+      >
+        <i class="fas fa-fw fa-table" />
+        <span>Recherches récentes</span></a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+      Mon espace santé
+    </div>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        href="charts.html"
+      >
+        <i class="fas fa-fw fa-user" />
+        <span>Informations</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        href="charts.html"
+      >
+        <i class="fas fa-fw fa-address-book" />
+        <span>Rendez-vous</span></a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+      Autres
+    </div>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        href="charts.html"
+      >
+        <i class="fas fa-fw fa-cogs" />
+        <span>Paramètres</span></a>
+    </li>
+
     <hr class="sidebar-divider">
 
     <!-- Sidebar Toggler (Sidebar) -->
@@ -59,4 +126,7 @@ export default {
 </script>
 
 <style scoped>
+.roboto {
+  font-family: 'Roboto', sans-serif !important;
+}
 </style>
