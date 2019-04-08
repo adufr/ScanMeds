@@ -24,11 +24,16 @@
 
         <li class="nav-item">
           <a
+            :class="['here', { active: page === 'dashboard' } ]"
             class="nav-link"
             @click="page = 'dashboard'"
           >
-            <i class="fas fa-fw fa-tachometer-alt" />
-            <span>Tableau de bord</span></a>
+            <i
+              class="fas fa-fw fa-tachometer-alt"
+              :class="['here', { active: page === 'dashboard' } ]"
+            />
+            <span>Tableau de bord</span>
+          </a>
         </li>
 
         <hr class="sidebar-divider">
@@ -39,28 +44,40 @@
 
         <li class="nav-item">
           <a
+            :class="['here', { active: page === 'search' } ]"
             class="nav-link"
             @click="page = 'search'"
           >
-            <i class="fas fa-fw fa-search" />
+            <i
+              class="fas fa-fw fa-search"
+              :class="['here', { active: page === 'search' } ]"
+            />
             <span>Rechercher</span></a>
         </li>
 
         <li class="nav-item">
           <a
+            :class="['here', { active: page === 'favs' } ]"
             class="nav-link"
             @click="page = 'favs'"
           >
-            <i class="fas fa-fw fa-heart" />
+            <i
+              class="fas fa-fw fa-heart"
+              :class="['here', { active: page === 'favs' } ]"
+            />
             <span>Médicaments favoris</span></a>
         </li>
 
         <li class="nav-item">
           <a
+            :class="['here', { active: page === 'recents' } ]"
             class="nav-link"
             @click="page = 'recents'"
           >
-            <i class="fas fa-fw fa-table" />
+            <i
+              class="fas fa-fw fa-table"
+              :class="['here', { active: page === 'recents' } ]"
+            />
             <span>Recherches récentes</span></a>
         </li>
 
@@ -72,19 +89,27 @@
 
         <li class="nav-item">
           <a
+            :class="['here', { active: page === 'profile' } ]"
             class="nav-link"
             @click="page = 'profile'"
           >
-            <i class="fas fa-fw fa-user" />
+            <i
+              class="fas fa-fw fa-user"
+              :class="['here', { active: page === 'profile' } ]"
+            />
             <span>Informations</span></a>
         </li>
 
         <li class="nav-item">
           <a
+            :class="['here', { active: page === 'appointments' } ]"
             class="nav-link"
             @click="page = 'appointments'"
           >
-            <i class="fas fa-fw fa-address-book" />
+            <i
+              class="fas fa-fw fa-address-book"
+              :class="['here', { active: page === 'appointments' } ]"
+            />
             <span>Rendez-vous</span></a>
         </li>
 
@@ -96,10 +121,14 @@
 
         <li class="nav-item">
           <a
+            :class="['here', { active: page === 'settings' } ]"
             class="nav-link"
             @click="page = 'settings'"
           >
-            <i class="fas fa-fw fa-cogs" />
+            <i
+              class="fas fa-fw fa-cogs"
+              :class="['here', { active: page === 'settings' } ]"
+            />
             <span>Paramètres</span></a>
         </li>
 
@@ -277,7 +306,6 @@
             <Recents v-show="page === 'recents'" />
             <Profile v-show="page === 'profile'" />
             <Appointments v-show="page === 'appointments'" />
-
           </div>
         </div>
 
@@ -343,6 +371,10 @@ export default {
 </script>
 
 <style scoped>
+.here.active {
+  color: white !important;
+}
+
 .roboto {
   font-family: 'Roboto', sans-serif !important;
 }

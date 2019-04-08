@@ -1,6 +1,4 @@
-<template class="roboto">
-
-</template>
+<template class="roboto" />
 
 <script>
 import { mapState } from 'vuex'

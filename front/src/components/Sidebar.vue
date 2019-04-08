@@ -22,7 +22,7 @@
         href="/dashboard"
       >
         <i class="fas fa-fw fa-tachometer-alt" />
-        <span>Tableau de bord</span></a>
+        <span class="here">Tableau de bord</span></a>
     </li>
 
     <hr class="sidebar-divider">
@@ -129,4 +129,5 @@ export default {
 .roboto {
   font-family: 'Roboto', sans-serif !important;
 }
+
 </style>
