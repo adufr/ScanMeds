@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Rechercher un médicament</h1>
 
-    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
       <div class="input-group">
         <input
           v-model.trim="search"
@@ -19,15 +19,8 @@
           </button>
         </div>
       </div>
-    </form>
+    </div>
 
-    <!-- <div
-      v-for="(medicament, index) in results"
-      :key="index"
-    >
-      {{ medicament.denomination }}
-    </div> -->
-    
     <div v-show="search"
     id="table" class="card shadow mb-4">
       <div class="card-header py-3">
@@ -68,10 +61,12 @@
 
     <p
       class="description"
-      v-if="!results.length"
+      v-if="!search || (search && !results.length)"
     >
-      Commencez à taper pour chercher
+      {{status}}
     </p>
+
+    <br>
 
   </div>
 </template>
@@ -82,7 +77,8 @@ export default {
   data () {
     return {
       search: null,
-      results: []
+      results: [],
+      status: 'Commencez à taper pour chercher'
     }
   },
   watch: {
@@ -93,7 +89,8 @@ export default {
   methods: {
     fetch: function () {
       this.$http.get(`https://cors.io/?https://www.open-medicaments.fr/api/v1/medicaments?query=${encodeURIComponent(this.search)}`).then(res => {
-        this.results = res.data
+        this.results = res.data  
+        this.results.length ? this.status = '' : this.status = 'Aucun résultat à afficher'
       }).catch(err => {
         console.error(err)
       })
@@ -116,7 +113,8 @@ h1 {
 }
 
 .description {
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   font-size: 20px;
   color: rgb(126, 126, 126);
 }
@@ -130,7 +128,6 @@ h1 {
 }
 
 .search-input {
-  width: 500px;
   height: 50px;
   padding: 30px;
   border-radius: 15px
