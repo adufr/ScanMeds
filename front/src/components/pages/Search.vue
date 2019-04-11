@@ -21,8 +21,11 @@
       </div>
     </div>
 
-    <div v-show="search"
-    id="table" class="card shadow mb-4">
+    <div
+      v-show="search"
+      id="table"
+      class="card shadow mb-4"
+    >
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary left">
           Résultats
@@ -36,23 +39,35 @@
             cellspacing="0"
           >
             <!-- <span> -->
-              <thead>
-                <tr>
-                  <th class="left">Médicament</th>
-                  <th class="left">Type</th>
-                  <th>(CIS)</th>
-                </tr>
-              </thead>
-              <tbody
-                v-for="(medicament, index) in results"
-                :key="index"
+            <thead>
+              <tr>
+                <th class="left">
+                  Médicament
+                </th>
+                <th class="left">
+                  Type
+                </th>
+                <th>(CIS)</th>
+              </tr>
+            </thead>
+            <tbody
+              v-for="(medicament, index) in results"
+              :key="index"
+            >
+              <tr
+                @click="getDetailOf(medicament.codeCIS)"
+                data-toggle="modal"
+                data-target=".med-modal"
               >
-                <tr>
-                  <td class="left">{{ medicament.denomination.split(',')[0] }}</td>
-                  <td class="left">{{ capitalizeFirstLetter(medicament.denomination.split(',')[1]) }}</td>
-                  <td>{{ medicament.codeCIS }}</td>
-                </tr>
-              </tbody>
+                <td class="left">
+                  {{ medicament.denomination }}
+                </td>
+                <td class="left">
+                  {{ capitalizeFirstLetter(medicament.denomination.split(',')[1]) }}
+                </td>
+                <td>{{ medicament.codeCIS }}</td>
+              </tr>
+            </tbody>
             <!-- </span> -->
           </table>
         </div>
@@ -60,25 +75,37 @@
     </div>
 
     <p
-      class="description"
       v-if="!search || (search && !results.length)"
+      class="description"
     >
-      {{status}}
+      {{ status }}
     </p>
 
     <br>
 
+    <Med 
+      v-if="isModalVisible"
+      @click="isModalVisible = false"
+      :med="med"
+    />
   </div>
 </template>
 
 <script>
+import Med from '../Med.vue'
+
 export default {
   name: 'Search',
+  components: {
+    Med
+  },
   data () {
     return {
       search: null,
       results: [],
-      status: 'Commencez à taper pour chercher'
+      status: 'Commencez à taper pour chercher',
+      med: {name: 'test'},
+      isModalVisible: false
     }
   },
   watch: {
@@ -92,11 +119,18 @@ export default {
         this.results = res.data  
         this.results.length ? this.status = '' : this.status = 'Aucun résultat à afficher'
       }).catch(err => {
-        console.error(err)
+        this.status = 'Une erreur est survenue'
+      })
+    },
+    getDetailOf: function (medId) {
+      console.log(medId)
+      this.isModalVisible = true
+      this.$http.get(`https://cors.io/?https://www.open-medicaments.fr/api/v1/medicaments/${medId}`).then(res => {
+        this.med = res.data
       })
     },
     capitalizeFirstLetter: function (string) {
-      string = string.toLowerCase()
+      string = string.trim().toLowerCase()
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
   }
