@@ -177,7 +177,7 @@
               >
                 <i class="fas fa-bell fa-fw" />
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{{ notifications.length }}+</span>
+                <span class="badge badge-danger badge-counter">{{ notifications && notifications.length ? `${notifications.length}+` : '' }}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div
@@ -187,52 +187,37 @@
                 <h6 class="dropdown-header">
                   Notifications
                 </h6>
-                <a
-                  class="dropdown-item d-flex align-items-center"
-                  href="#"
-                >
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white" />
+
+                <div v-if="notifications && notifications.length">
+                  <a
+                    v-for="(notification, index) in notifications"
+                    :key="index"
+                    class="dropdown-item d-flex align-items-center"
+                    @click="readNotification(notification._id)"
+                  >
+                    <div class="mr-3">
+                      <div class="icon-circle bg-primary">
+                        <i class="fas fa-file-alt text-white" />
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
-                <a
-                  class="dropdown-item d-flex align-items-center"
-                  href="#"
-                >
-                  <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white" />
+                    <div>
+                      <div class="font-weight-bold text-gray-700">{{ notification.title }}</div>
+                      <span class="small text-gray-600">{{ notification.message }}</span>
                     </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
-                  </div>
-                </a>
-                <a
-                  class="dropdown-item d-flex align-items-center"
-                  href="#"
+                  </a>
+
+                  <a
+                    class="dropdown-item text-center small text-gray-500"
+                    @click="readAllNotifications()"
+                  >Marquer tout comme "lu"</a>
+                </div>
+
+                <div
+                  v-if="!notifications || !notifications.length"
+                  class="text-center text-gray-700 mb-3 mt-3"
                 >
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
-                <a
-                  class="dropdown-item text-center small text-gray-500"
-                  href="#"
-                >Voir toutes les notifications</a>
+                  <span>Aucune notification !</span>
+                </div>
               </div>
             </li>
 
@@ -372,6 +357,18 @@ export default {
     toggleSidebar: function () {
       document.querySelector('body').classList.toggle('sidebar-toggled')
       document.querySelector('.sidebar').classList.toggle('toggled')
+    },
+    readNotification: function (notificationId) {
+      this.$http.patch(`${this.$apiUrl}/notification/read/${notificationId}`).then(res => {
+        // remove the notification from the front, without having to call the api
+        this.notifications = this.notifications.filter(notification => notification._id !== notificationId)
+      })
+    },
+    readAllNotifications: function () {
+      this.$http.patch(`${this.$apiUrl}/notification/read/all`).then(res => {
+        // remove the notification from the front, without having to call the api
+        this.notifications = []
+      })
     }
   }
 }

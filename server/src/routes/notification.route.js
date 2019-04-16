@@ -21,17 +21,17 @@ router.get('/notifications', [
 ])
 
 // mark a notification as read
-router.patch('/read/:notificationId', [
-  ValidationMiddleware.validJWTNeeded,
-  PermissionMiddleware.minimumPermissionLevelRequired(FREE),
-  NotificationController.readById
-])
-
-// mark a notification as read
 router.patch('/read/all', [
   ValidationMiddleware.validJWTNeeded,
   PermissionMiddleware.minimumPermissionLevelRequired(FREE),
   NotificationController.readAll
+])
+
+// mark a notification as read
+router.patch('/read/:notificationId', [
+  ValidationMiddleware.validJWTNeeded,
+  PermissionMiddleware.minimumPermissionLevelRequired(FREE),
+  NotificationController.readById
 ])
 
 module.exports = router

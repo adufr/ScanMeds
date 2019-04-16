@@ -25,6 +25,7 @@ module.exports.seedData = async function seedData () {
   try {
     // users
     const user1 = new User({
+      _id: mongoose.Types.ObjectId('5cb5d0fc369451002e48a309'),
       username: 'John',
       email: 'test@gmail.com',
       password: bcrypt.hashSync('aze', 10),
@@ -50,8 +51,16 @@ module.exports.seedData = async function seedData () {
       message: 'First notification test!'
     })
 
+    const notification2 = new Notification({
+      user: user1._id,
+      title: 'Bienvenue',
+      message: "Bienvenue sur ScanMeds ! N'hésitez pas à contacter le support en cas de besoin"
+    })
+
     await notification1.save()
     logger.info(`=> notification1 (${notification1.title}) saved (${notification1.user})`)
+    await notification2.save()
+    logger.info(`=> notification2 (${notification2.title}) saved (${notification2.user})`)
   } catch (err) {
     logger.error(err)
   }
