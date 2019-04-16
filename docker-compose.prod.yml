@@ -16,10 +16,9 @@ services:
     image: scanmeds-api:1.0.0
     restart: always
     volumes:
-      #- ./server:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - "3000:3000"
+      - "3002:3000"
     networks:
       - frontend
       - backend
@@ -72,7 +71,7 @@ services:
     volumes:
       - /usr/src/app/node_modules
     ports:
-      - "3001:3001"
+      - "3001:3000"
     networks:
       - frontend
     command: npm run start
