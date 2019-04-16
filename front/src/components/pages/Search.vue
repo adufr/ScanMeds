@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     fetch: function () {
-      this.$http.get(`https://cors.io/?https://www.open-medicaments.fr/api/v1/medicaments?query=${encodeURIComponent(this.search)}`).then(res => {
+      this.$http.get(`http://localhost:3001/api/v1/medicaments?query=${encodeURIComponent(this.search)}`).then(res => {
         this.results = res.data  
         this.results.length ? this.status = '' : this.status = 'Aucun résultat à afficher'
       }).catch(err => {
@@ -125,7 +125,7 @@ export default {
     getDetailOf: function (medId) {
       console.log(medId)
       this.isModalVisible = true
-      this.$http.get(`https://cors.io/?https://www.open-medicaments.fr/api/v1/medicaments/${medId}`).then(res => {
+      this.$http.get(`http://localhost:3001/https://www.open-medicaments.fr/api/v1/medicaments/${medId}`).then(res => {
         this.med = res.data
       })
     },

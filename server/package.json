@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "./node_modules/.bin/nodemon src/app.js",
+    "start": "node src/app.js",
     "gen-doc": "./node_modules/.bin/apidoc -i src/ -o doc/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

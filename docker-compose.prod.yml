@@ -14,9 +14,9 @@ services:
       context: ./server
       dockerfile: Dockerfile
     image: scanmeds-api:1.0.0
-    restart: on-failure
+    restart: always
     volumes:
-      - ./server:/usr/src/app
+      #- ./server:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - "3000:3000"
@@ -24,20 +24,18 @@ services:
       - frontend
       - backend
     environment:
-      - ENV=development
+      - ENV=production
     depends_on:
       - database
-    command: npm run dev
+    command: npm run start
 
   database:
     container_name: scanmeds-database
     hostname: scanmeds-database
     image: mongo:3.6
-    restart: on-failure
+    restart: always
     volumes:
       - ./data/db:/data/db
-    ports:
-      - "27017:27017"
     networks:
       - backend
     environment:
@@ -52,19 +50,16 @@ services:
       context: ./front
       dockerfile: Dockerfile
     image: scanmeds-front:1.0.0
-    restart: on-failure
+    restart: always
     volumes:
-      - ./front:/usr/src/app
       - /usr/src/app/node_modules
-    ports:
-      - "8080:8080"
     networks:
       - frontend
     environment:
-      - ENV=development
+      - ENV=production
     depends_on:
       - server
-    command: npm run serve
+    command: npm run build
 
   proxy:
     container_name: scanmeds-proxy
@@ -73,9 +68,8 @@ services:
       context: ./proxy
       dockerfile: Dockerfile
     image: scanmeds-proxy:1.0.0
-    restart: on-failure
+    restart: always
     volumes:
-      - ./proxy:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - "3001:3001"

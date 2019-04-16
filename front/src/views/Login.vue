@@ -265,10 +265,9 @@ export default {
       }
 
       // call the login route
-      await this.$http.post('http://localhost:3000/api/v1/auth', data).then(res => {
+      await this.$http.post(`${this.$apiUrl}/auth`, data).then(res => {
         localStorage.setItem('token', res.data.accessToken)
         localStorage.setItem('user', JSON.stringify(res.data.user))
-        // redirect to dashboard
         router.push('/dashboard')
       }).catch(err => {
         switch (err.response.status) {
@@ -303,7 +302,7 @@ export default {
       }
 
       // call the register route
-      await this.$http.post('http://localhost:3000/api/v1/user', data).then((res) => {
+      await this.$http.post(`${this.$apiUrl}/user`, data).then((res) => {
         // once the user is registered 
         // try to login him
         this.login()
@@ -323,7 +322,7 @@ export default {
         this.errors.splice(index, 1)
       }
       
-      await this.$http.get(`http://localhost:3000/api/v1/user/isUsernameTaken/${this.username}`).then((res) => {
+      await this.$http.get(`${this.$apiUrl}/user/isUsernameTaken/${this.username}`).then((res) => {
         const result = res.data.result
         if (result) this.errors.push(error)
         this.usernameIsUnique = !result
@@ -340,7 +339,7 @@ export default {
         this.errors.splice(index, 1)
       }
       
-      await this.$http.get(`http://localhost:3000/api/v1/user/isEmailTaken/${this.email}`).then((res) => {
+      await this.$http.get(`${this.$apiUrl}/user/isEmailTaken/${this.email}`).then((res) => {
         const result = res.data.result
         if (result) this.errors.push(error)
         this.emailIsUnique = !result

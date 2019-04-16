@@ -177,7 +177,7 @@
               >
                 <i class="fas fa-bell fa-fw" />
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
+                <span class="badge badge-danger badge-counter">{{ notifications.length }}+</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div
@@ -343,7 +343,8 @@ export default {
   },
   data() {
     return {
-      page: 'dashboard'
+      page: 'dashboard',
+      notifications: []
     }
   },
   computed: {
@@ -352,9 +353,15 @@ export default {
     }
   },
   mounted () {
+    // if user's not logged in, redirect to login page
     if (!localStorage.getItem('token')) {
       router.push('/')
     }
+
+    // get user's notifications
+    this.$http.get(`${this.$apiUrl}/notification/notifications`).then(res => {
+      this.notifications = res.data.notifications
+    })
   },
   methods: {
     logout: function () {

@@ -9,16 +9,17 @@ import router from './router'
 
 export default {
   created: function () {
-    this.$http.interceptors.response.use(undefined, function (err) {
+    // intercept all incoming http requests, and check if user is still logged in
+    this.$http.interceptors.response.use(undefined, (err) => {
       return new Promise(function (resolve, reject) {
         if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
           localStorage.removeItem('token')
           localStorage.removeItem('user')
           router.push('/')
         }
-        throw err;
-      });
-    });
+        throw err
+      })
+    })
   }
 }
 </script>

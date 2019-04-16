@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const logger = require('../config/winston')
 
 const User = mongoose.model('User')
+const Notification = mongoose.model('Notification')
 
 // ===================================
 // == start by removing all data
@@ -10,6 +11,7 @@ const User = mongoose.model('User')
 module.exports.removeAllData = async function removeAllData () {
   try {
     await User.deleteMany({})
+    await Notification.deleteMany({})
     logger.info('=> Successfully removed all existent data')
   } catch (err) {
     logger.error(err)
@@ -41,6 +43,15 @@ module.exports.seedData = async function seedData () {
     logger.info(`=> user1 (${user1.username}) saved (${user1._id})`)
     await user2.save()
     logger.info(`=> user2 (${user2.username}) saved (${user2._id})`)
+
+    const notification1 = new Notification({
+      user: user1._id,
+      title: 'Test!',
+      message: 'First notification test!'
+    })
+
+    await notification1.save()
+    logger.info(`=> notification1 (${notification1.title}) saved (${notification1.user})`)
   } catch (err) {
     logger.error(err)
   }
