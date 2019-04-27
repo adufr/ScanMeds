@@ -103,7 +103,7 @@ export default {
     return {
       search: null,
       results: [],
-      status: 'Commencez à taper pour chercher',
+      status: 'Commencez à taper pour lancer la recherche',
       med: {name: 'test'},
       isModalVisible: false
     }
