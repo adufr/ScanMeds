@@ -51,7 +51,7 @@ services:
     image: scanmeds-front:1.0.0
     restart: on-failure
     volumes:
-      - ./front/dist:/usr/src/app/dist
+      - ./front:/usr/src/app
       - /usr/src/app/node_modules
     networks:
       - frontend
