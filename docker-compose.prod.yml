@@ -49,7 +49,7 @@ services:
       context: ./front
       dockerfile: Dockerfile
     image: scanmeds-front:1.0.0
-    restart: always
+    restart: on-failure
     volumes:
       - /usr/src/app/node_modules
     networks:

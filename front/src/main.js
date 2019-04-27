@@ -14,7 +14,7 @@ Axios.defaults.headers.common['Target-URL'] = 'https://www.open-medicaments.fr/'
 Vue.prototype.$http = Axios;
 
 // create a global variable
-Vue.prototype.$apiUrl = 'http://localhost:3000/api/v1'
+Vue.prototype.$apiUrl = process.env.VUE_APP_API_URL
 
 new Vue({
   router,
