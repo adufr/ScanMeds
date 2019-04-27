@@ -15,6 +15,7 @@ Vue.prototype.$http = Axios;
 
 // create a global variable
 Vue.prototype.$apiUrl = process.env.VUE_APP_API_URL
+Vue.prototype.$proxyUrl = process.env.VUE_APP_PROXY_URL
 
 new Vue({
   router,
