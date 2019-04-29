@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     fetch: function () {
-      this.$http.get(`${this.$proxyUrl}/medicaments?query=${encodeURIComponent(this.search)}`).then(res => {
+      this.$http.get(`${this.$proxyUrl}/api/v1/medicaments?query=${encodeURIComponent(this.search)}`).then(res => {
         this.results = res.data  
         this.results.length ? this.status = '' : this.status = 'Aucun résultat à afficher'
       }).catch(err => {
