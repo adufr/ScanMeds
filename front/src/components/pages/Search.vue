@@ -63,7 +63,7 @@
                   {{ medicament.denomination }}
                 </td>
                 <td class="left">
-                  {{ capitalizeFirstLetter(medicament.denomination.split(',')[1]) }}
+                  {{ medicament && medicament.denomination ? capitalizeFirstLetter(medicament.denomination.split(',')[1]) : 'aucune' }}
                 </td>
                 <td>{{ medicament.codeCIS }}</td>
               </tr>
