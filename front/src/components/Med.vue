@@ -28,7 +28,7 @@
           <div class="modal-body">
             <div class="row">
               <!-- price card -->
-              <div class="col-xl">
+              <div class="col-xl mb-3">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -49,7 +49,7 @@
               </div>
               
               <!-- "shape" card -->
-              <div class="col-xl">
+              <div class="col-xl mb-3">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -70,7 +70,7 @@
               </div>
 
               <!-- "administration" card -->
-              <div class="col-xl">
+              <div class="col-xl mb-3">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -118,7 +118,7 @@ export default {
   },
   computed: {
     medPrice: function () {
-      return this.med.presentations ? this.med.presentations[0].prix.toFixed(2) + '€' : '?'
+      return this.med.presentations && this.med.presentations[0].prix ? this.med.presentations[0].prix.toFixed(2) + '€' : '?'
     },
     medShape: function () {
       return this.med.formePharmaceutique
