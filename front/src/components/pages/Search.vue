@@ -38,7 +38,6 @@
             width="100%"
             cellspacing="0"
           >
-            <!-- <span> -->
             <thead>
               <tr>
                 <th class="left">
@@ -55,9 +54,9 @@
               :key="index"
             >
               <tr
-                @click="getDetailOf(medicament.codeCIS)"
                 data-toggle="modal"
                 data-target=".med-modal"
+                @click="getDetailOf(medicament.codeCIS)"
               >
                 <td class="left">
                   {{ medicament.denomination }}
@@ -68,7 +67,6 @@
                 <td>{{ medicament.codeCIS }}</td>
               </tr>
             </tbody>
-            <!-- </span> -->
           </table>
         </div>
       </div>
@@ -85,8 +83,8 @@
 
     <Med 
       v-if="isModalVisible"
-      @click="isModalVisible = false"
       :med="med"
+      @click="isModalVisible = false"
     />
   </div>
 </template>
@@ -123,10 +121,9 @@ export default {
       })
     },
     getDetailOf: function (medId) {
-      console.log(medId)
-      this.isModalVisible = true
-      this.$http.get(`${this.$proxyUrl}/medicaments/${medId}`).then(res => {
+      this.$http.get(`${this.$proxyUrl}/api/v1/medicaments/${medId}`).then(res => {
         this.med = res.data
+        this.isModalVisible = true
       })
     },
     capitalizeFirstLetter: function (string) {
