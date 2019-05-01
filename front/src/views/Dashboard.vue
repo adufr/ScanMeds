@@ -284,7 +284,10 @@
           <div class="container-fluid">
             <!-- display page -->
 
-            <Main v-show="page === 'dashboard'" />
+            <Main
+              v-show="page === 'dashboard'"
+              :notifications="notifications"
+            />
             <Settings v-show="page === 'settings'" />
             <Search v-show="page === 'search'" />
             <Favs v-show="page === 'favs'" />
