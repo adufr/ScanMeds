@@ -12,7 +12,7 @@
         <!-- Sidebar - Brand -->
         <a
           class="sidebar-brand d-flex align-items-center justify-content-center"
-          href="/"
+          href="/#/dashboard?page=dashboard"
         >
           <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink" />
@@ -26,7 +26,7 @@
           <a
             :class="['here', { active: page === 'dashboard' } ]"
             class="nav-link"
-            @click="page = 'dashboard'"
+            href="/#/dashboard?page=dashboard"
           >
             <i
               class="fas fa-fw fa-tachometer-alt"
@@ -46,7 +46,7 @@
           <a
             :class="['here', { active: page === 'search' } ]"
             class="nav-link"
-            @click="page = 'search'"
+            href="/#/dashboard?page=search"
           >
             <i
               class="fas fa-fw fa-search"
@@ -59,7 +59,7 @@
           <a
             :class="['here', { active: page === 'favs' } ]"
             class="nav-link"
-            @click="page = 'favs'"
+            href="/#/dashboard?page=favs"
           >
             <i
               class="fas fa-fw fa-heart"
@@ -72,7 +72,7 @@
           <a
             :class="['here', { active: page === 'recents' } ]"
             class="nav-link"
-            @click="page = 'recents'"
+            href="/#/dashboard?page=recents"
           >
             <i
               class="fas fa-fw fa-table"
@@ -91,7 +91,7 @@
           <a
             :class="['here', { active: page === 'profile' } ]"
             class="nav-link"
-            @click="page = 'profile'"
+            href="/#/dashboard?page=profile"
           >
             <i
               class="fas fa-fw fa-user"
@@ -104,7 +104,7 @@
           <a
             :class="['here', { active: page === 'appointments' } ]"
             class="nav-link"
-            @click="page = 'appointments'"
+            href="/#/dashboard?page=appointments"
           >
             <i
               class="fas fa-fw fa-address-book"
@@ -123,7 +123,7 @@
           <a
             :class="['here', { active: page === 'settings' } ]"
             class="nav-link"
-            @click="page = 'settings'"
+            href="/#/dashboard?page=settings"
           >
             <i
               class="fas fa-fw fa-cogs"
@@ -331,7 +331,7 @@ export default {
   },
   data() {
     return {
-      page: 'dashboard',
+      page: this.$route.query.page,
       notifications: []
     }
   },
@@ -372,6 +372,11 @@ export default {
         // remove the notification from the front, without having to call the api
         this.notifications = []
       })
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.page = to.query.page
     }
   }
 }
