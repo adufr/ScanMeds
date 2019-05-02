@@ -11,13 +11,18 @@
       >
         <!-- Sidebar - Brand -->
         <a
-          class="sidebar-brand d-flex align-items-center justify-content-center"
+          class="sidebar-brand d-flex align-items-center"
           href="/#/dashboard?page=dashboard"
         >
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink" />
+          <div class="sidebar-brand-icon text-left ml-2 mr-2">
+            <img
+              class="img-fluid"
+              style="width: 2rem"
+              src="../assets/logo.png"
+              alt="Logo"
+            >
           </div>
-          <div class="sidebar-brand-text mx-3">ScanMeds</div>
+          <div class="sidebar-brand-text">ScanMeds</div>
         </a>
 
         <hr class="sidebar-divider my-0">
