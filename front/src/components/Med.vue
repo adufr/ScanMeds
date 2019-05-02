@@ -93,13 +93,16 @@
           </div>
 
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
+            <a
+              href="#"
+              class="btn btn-light btn-icon-split"
               data-dismiss="modal"
             >
-              Fermer
-            </button>
+              <span class="icon text-gray-600">
+                <i class="fas fa-arrow-right" />
+              </span>
+              <span class="text">Fermer</span>
+            </a>
           </div>
         </div>
       </div>
