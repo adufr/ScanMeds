@@ -345,6 +345,11 @@ export default {
       return JSON.parse(localStorage.getItem('user'))
     }
   },
+  watch: {
+    '$route' (to, from) {
+      this.page = to.query.page
+    }
+  },
   mounted () {
     // if user's not logged in, redirect to login page
     if (!localStorage.getItem('token')) {
@@ -377,11 +382,6 @@ export default {
         // remove the notification from the front, without having to call the api
         this.notifications = []
       })
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-      this.page = to.query.page
     }
   }
 }
