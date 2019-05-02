@@ -248,7 +248,7 @@ export default {
   mounted () {
     // if user is already connected, send him directly to the dashboard
     if (localStorage.getItem('token')) {
-      router.push('/dashboard')
+      router.push('/dashboard?page=dashboard')
     }
   },
   methods: {
@@ -268,7 +268,7 @@ export default {
       await this.$http.post(`${this.$apiUrl}/auth`, data).then(res => {
         localStorage.setItem('token', res.data.accessToken)
         localStorage.setItem('user', JSON.stringify(res.data.user))
-        router.push('/dashboard')
+        router.push('/dashboard?page=dashboard')
       }).catch(err => {
         switch (err.response.status) {
           case 401:
