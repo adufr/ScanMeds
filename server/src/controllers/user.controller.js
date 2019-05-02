@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const User = require('../models/user.model')
+const Notification = require('../models/notification.model')
 
 // Checks if username is taken
 exports.isUsernameTaken = async (req, res) => {
@@ -57,6 +58,15 @@ exports.create = async (req, res) => {
 
   const user = new User(userData)
   await user.save()
+
+  const notificationData = {
+    user: user._id,
+    title: 'Bienvenue !',
+    message: 'Nous vous souhaitons la bienvenue sur notre plateforme ScanMeds !'
+  }
+
+  const notification = new Notification(notificationData)
+  await notification.save()
 
   res.status(201).json({
     message: 'Votre compte a bien été créé',
