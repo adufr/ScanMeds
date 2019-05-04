@@ -252,27 +252,27 @@
                 aria-labelledby="userDropdown"
               >
                 <a
-                  class="dropdown-item"
-                  @click="page === 'profile'"
+                  class="dropdown-item text-gray-500"
+                  href="/#/dashboard?page=profile"
                 >
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400" />
+                  <i class="fas fa-user fa-sm fa-fw mr-2" />
                   Mon profil
                 </a>
                 <a
-                  class="dropdown-item"
-                  @click="page === 'settings'"
+                  class="dropdown-item text-gray-500"
+                  href="/#/dashboard?page=settings"
                 >
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" />
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 " />
                   Paramètres
                 </a>
                 <div class="dropdown-divider" />
                 <a
-                  class="dropdown-item"
+                  class="dropdown-item text-gray-500"
                   data-toggle="modal"
                   data-target="#logoutModal"
                   @click="logout"
                 >
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" />
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2" />
                   Déconnexion
                 </a>
               </div>
