@@ -60,10 +60,10 @@
                 @click="getDetailOf(medicament.codeCIS)"
               >
                 <td class="left">
-                  {{ medicament.denomination }}
+                  {{ medicament.denomination.split(',')[0] }}
                 </td>
                 <td class="left">
-                  {{ medicament && medicament.denomination ? capitalizeFirstLetter(medicament.denomination.split(',')[1]) : 'aucune' }}
+                  {{ medicament && medicament.denomination.length >= 2 ? capitalizeFirstLetter(medicament.denomination.split(',')[1]) : 'Aucune' }}
                 </td>
                 <td>{{ medicament.codeCIS }}</td>
               </tr>
@@ -128,8 +128,10 @@ export default {
       })
     },
     capitalizeFirstLetter: function (string) {
+      if (!string) return 'Aucune'
       string = string.trim().toLowerCase()
       return string.charAt(0).toUpperCase() + string.slice(1);
+
     }
   }
 }
