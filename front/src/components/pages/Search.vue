@@ -9,6 +9,7 @@
           type="text"
           class="form-control search-input border-0"
           placeholder="Rechercher un médicament..."
+          autofocus
         >
         <div class="input-group-append">
           <button
