@@ -7,7 +7,8 @@ const userSchema = new Schema({
   password: { type: String, minLength: 6, maxLength: 64, required: true },
   firstname: { type: String, minxLength: 1, maxlength: 32 },
   lastname: { type: String, minLength: 1, maxlength: 32 },
-  permissionLevel: { type: Number, default: 1, required: true }
+  permissionLevel: { type: Number, default: 1, required: true },
+  favorites: { type: Array, default: [] }
 })
 
 module.exports = mongoose.model('User', userSchema)

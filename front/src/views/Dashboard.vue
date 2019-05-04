@@ -294,8 +294,14 @@
               :notifications="notifications"
             />
             <Settings v-show="page === 'settings'" />
-            <Search v-show="page === 'search'" />
-            <Favs v-show="page === 'favs'" />
+            <Search
+              v-show="page === 'search'"
+              :favorites="favorites"
+            />
+            <Favs
+              v-show="page === 'favs'"
+              :favorites="favorites"
+            />
             <Recents v-show="page === 'recents'" />
             <Profile v-show="page === 'profile'" />
             <Appointments v-show="page === 'appointments'" />
@@ -337,7 +343,8 @@ export default {
   data() {
     return {
       page: this.$route.query.page,
-      notifications: []
+      notifications: [],
+      favorites: []
     }
   },
   computed: {
@@ -359,6 +366,11 @@ export default {
     // get user's notifications
     this.$http.get(`${this.$apiUrl}/notification/notifications`).then(res => {
       this.notifications = res.data.notifications
+    })
+
+    // get user's favorites medicines
+    this.$http.get(`${this.$apiUrl}/favorite/favorites`).then(res => {
+      this.favorites = res.data.favorites  
     })
   },
   methods: {

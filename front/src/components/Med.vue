@@ -15,14 +15,18 @@
             <h5 class="modal-title">
               {{ med.denomination.split(',')[0] }}
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <div>
+              <a
+                class="btn btn-icon-split"
+                :class="isInFavorites ? 'btn-danger' : 'btn-warning'"
+                @click="toggleFavorite($event)"
+              >
+                <span class="icon text-white-50">
+                  <i class="fas fa-star" />
+                </span>
+                <span class="text text-white">{{ isInFavorites ? 'Retirer des favoris' : 'Ajouter au favoris' }}</span>
+              </a>
+            </div>
           </div>
 
           <div class="modal-body">
@@ -176,16 +180,14 @@
                 class="btn btn-info btn-icon-split"
               >
                 <span class="icon text-white-50">
-                  <i class="fas fa-info-circle"></i>
+                  <i class="fas fa-info-circle" />
                 </span>
                 <span class="text">En savoir plus</span>
               </a>
             </div>
-
           </div>
-
           <div class="modal-footer">
-            <div class="align-left align-items-left text-left">
+            <div class="mr-auto">
               <a
                 class="btn btn-success btn-icon-split disabled"
                 :class="medEtatCommercialisation ? 'btn-success' : 'btn-warning'"
@@ -200,7 +202,6 @@
               </a>
             </div>
             <a
-              href="#"
               class="btn btn-light btn-icon-split"
               data-dismiss="modal"
             >
@@ -223,9 +224,12 @@ export default {
     med: {
       type: Object,
       default: () => {}
-    }
+    },
   },
   computed: {
+    favorites: function () {
+      return this.$attrs.favorites
+    },
     medPrice: function () {
       return this.med.presentations && this.med.presentations[0].prix ? this.med.presentations[0].prix.toFixed(2) + '€' : '?'
     },
@@ -254,12 +258,36 @@ export default {
     },
     medEtatCommercialisation: function () {
       return this.med.etatCommercialisation
+    },
+    isInFavorites: function () {
+      return this.favorites.find(favorite => favorite.codeCIS === this.med.codeCIS)
     }
   },
   methods: {
     capitalizeFirstLetter: function (string) {
       string = string.trim().toLowerCase()
       return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+    toggleFavorite: function (e) {
+      // if the medicine already is in user's favorites, remove it
+      if (this.isInFavorites) {
+        this.$http.delete(`${this.$apiUrl}/favorite/`).then(res => {
+          // this.favorites = this.favorites.filter(favorite => favorite.codeCIS !== this.med.codeCIS)
+          this.favorites.splice(this.favorites.map(fav => fav.codeCIS).indexOf(this.med.codeCIS), 1)
+        }).catch(err => {
+          console.error(err)
+        })
+      } else {
+        const med = {
+          codeCIS: this.med.codeCIS,
+          denomination: this.med.denomination
+        }
+        this.$http.post(`${this.$apiUrl}/favorite/`, med).then(res => {
+          this.favorites.push(med)
+        }).catch(err => {
+          console.error(err)
+        })
+      }
     }
   }
 }

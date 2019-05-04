@@ -30,7 +30,8 @@ module.exports.seedData = async function seedData () {
       email: 'test@gmail.com',
       password: bcrypt.hashSync('aze', 10),
       firstname: 'John',
-      lastname: 'Doe'
+      lastname: 'Doe',
+      favorites: [{ codeCIS: '65196753', denomination: 'DOLIPRANE 500 mg, comprimé effervescent' }]
     })
     const user2 = new User({
       username: 'Jane',

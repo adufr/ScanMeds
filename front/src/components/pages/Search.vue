@@ -28,7 +28,7 @@
       class="card shadow mb-4"
     >
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary left">
+        <h6 class="m-0 font-weight-bold text-primary text-left">
           Résultats
         </h6>
       </div>
@@ -41,10 +41,10 @@
           >
             <thead>
               <tr>
-                <th class="left">
+                <th class="text-left">
                   Médicament
                 </th>
-                <th class="left">
+                <th class="text-left">
                   Type
                 </th>
                 <th>(CIS)</th>
@@ -59,10 +59,15 @@
                 data-target=".med-modal"
                 @click="getDetailOf(medicament.codeCIS)"
               >
-                <td class="left">
+                <td class="text-left">
                   {{ medicament.denomination.split(',')[0] }}
+                  <i
+                    v-if="favorites.find(favorite => favorite.codeCIS === medicament.codeCIS)"
+                    class="fas fa-star ml-2"
+                    style="color: #F4B619"
+                  />
                 </td>
-                <td class="left">
+                <td class="text-left">
                   {{ medicament && medicament.denomination.length >= 2 ? capitalizeFirstLetter(medicament.denomination.split(',')[1]) : 'Aucune' }}
                 </td>
                 <td>{{ medicament.codeCIS }}</td>
@@ -85,7 +90,7 @@
     <Med 
       v-if="isModalVisible"
       :med="med"
-      @click="isModalVisible = false"
+      :favorites="favorites"
     />
   </div>
 </template>
@@ -103,13 +108,18 @@ export default {
       search: null,
       results: [],
       status: 'Commencez à taper pour lancer la recherche',
-      med: {name: 'test'},
+      med: { name: 'test' },
       isModalVisible: false
     }
   },
   watch: {
     search (before, after) {
       this.fetch()
+    }
+  },
+  computed: {
+    favorites: function () {
+      return this.$attrs.favorites
     }
   },
   methods: {
@@ -130,8 +140,7 @@ export default {
     capitalizeFirstLetter: function (string) {
       if (!string) return 'Aucune'
       string = string.trim().toLowerCase()
-      return string.charAt(0).toUpperCase() + string.slice(1);
-
+      return string.charAt(0).toUpperCase() + string.slice(1)
     }
   }
 }
@@ -151,10 +160,6 @@ h1 {
   margin-bottom: 50px;
   font-size: 20px;
   color: rgb(126, 126, 126);
-}
-
-.left {
-  text-align: left;
 }
 
 .text-primary {
