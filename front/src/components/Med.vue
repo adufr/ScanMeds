@@ -8,6 +8,7 @@
       class="modal fade med-modal"
       tabindex="-1"
       role="dialog"
+      data-backdrop="static" data-keyboard="false"
     >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -208,7 +209,7 @@
               <span class="icon text-gray-600">
                 <i class="fas fa-arrow-right" />
               </span>
-              <span class="text">Fermer</span>
+              <span class="text" @click="closeModal()">Fermer</span>
             </a>
           </div>
         </div>
@@ -224,14 +225,14 @@ export default {
     med: {
       type: Object,
       default: () => {}
-    },
+    }
   },
   computed: {
     favorites: function () {
       return this.$attrs.favorites
     },
     medPrice: function () {
-      return this.med.presentations && this.med.presentations[0].prix ? this.med.presentations[0].prix.toFixed(2) + '€' : '?'
+      return this.med.presentations && this.med.presentations[0] && this.med.presentations[0].prix ? this.med.presentations[0].prix.toFixed(2) + '€' : '?'
     },
     medShape: function () {
       return this.med.formePharmaceutique
@@ -264,6 +265,9 @@ export default {
     }
   },
   methods: {
+    closeModal: function () {
+      this.$emit('close')
+    },
     capitalizeFirstLetter: function (string) {
       string = string.trim().toLowerCase()
       return string.charAt(0).toUpperCase() + string.slice(1);

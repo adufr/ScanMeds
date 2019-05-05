@@ -1,6 +1,10 @@
 <template>
   <div class="container">
     <h1>Rechercher un médicament</h1>
+    <p class="text-gray-500 mb-5">
+      Recherchez des médicaments dans la base de données nationale<br>
+      (Double cliquez dessus pour afficher plus d'informations)
+    </p>
 
     <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
       <div class="input-group">
@@ -91,6 +95,7 @@
       v-if="isModalVisible"
       :med="med"
       :favorites="favorites"
+      v-on:close="isModalVisible = false"
     />
   </div>
 </template>
@@ -148,7 +153,7 @@ export default {
 
 <style scoped>
 h1 {
-  margin: 40px;
+  margin-top: 40px;
 }
 
 #table {

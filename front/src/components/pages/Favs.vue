@@ -3,7 +3,10 @@
     <h1 class="mt-5">
       Médicaments favoris
     </h1>
-
+    <p class="text-gray-500 mb-0">
+      Accédez rapidement à vos médicaments favoris <br>
+      (Double cliquez dessus pour afficher plus d'informations)
+    </p>
     <div
       v-show="favorites.length"
       id="table"
@@ -68,8 +71,10 @@
     </p>
 
     <Med 
+      v-if="isModalVisible"
       :med="med"
       :favorites="favorites"
+      v-on:close="isModalVisible = false"
     />
   </div>
 </template>
