@@ -74,7 +74,7 @@
       v-if="isModalVisible"
       :med="med"
       :favorites="favorites"
-      v-on:close="isModalVisible = false"
+      @close="isModalVisible = false"
     />
   </div>
 </template>

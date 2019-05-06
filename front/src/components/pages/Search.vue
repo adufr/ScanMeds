@@ -95,7 +95,7 @@
       v-if="isModalVisible"
       :med="med"
       :favorites="favorites"
-      v-on:close="isModalVisible = false"
+      @close="isModalVisible = false"
     />
   </div>
 </template>
@@ -117,14 +117,14 @@ export default {
       isModalVisible: false
     }
   },
-  watch: {
-    search (before, after) {
-      this.fetch()
-    }
-  },
   computed: {
     favorites: function () {
       return this.$attrs.favorites
+    }
+  },
+  watch: {
+    search (before, after) {
+      this.fetch()
     }
   },
   methods: {
