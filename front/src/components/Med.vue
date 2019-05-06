@@ -8,7 +8,8 @@
       class="modal fade med-modal"
       tabindex="-1"
       role="dialog"
-      data-backdrop="static" data-keyboard="false"
+      data-backdrop="static"
+      data-keyboard="false"
     >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -209,7 +210,10 @@
               <span class="icon text-gray-600">
                 <i class="fas fa-arrow-right" />
               </span>
-              <span class="text" @click="closeModal()">Fermer</span>
+              <span
+                class="text"
+                @click="closeModal()"
+              >Fermer</span>
             </a>
           </div>
         </div>
