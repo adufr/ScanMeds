@@ -98,6 +98,7 @@ exports.getById = async (req, res) => {
 // updates user informations
 exports.update = async (req, res) => {
   const _userId = req.params.userId
+  const _email = req.body.email
   const _firstname = req.body.firstname
   const _lastname = req.body.lastname
 
@@ -105,6 +106,7 @@ exports.update = async (req, res) => {
     const user = await User.findById(_userId)
     if (!user) return res.status(404).json({ message: 'User not found' })
 
+    if (_email) user.email = _email
     if (_firstname) user.firstname = _firstname
     if (_lastname) user.lastname = _lastname
 
