@@ -15,7 +15,7 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2 text-left">
                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                  Profil remplis à
+                  Profil rempli à
                 </div>
                 <div class="row no-gutters align-items-center">
                   <div class="col-auto">
