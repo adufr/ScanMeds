@@ -292,6 +292,7 @@
             <Main
               v-show="page === 'dashboard'"
               :notifications="notifications"
+              :favorites="favorites"
             />
             <Settings v-show="page === 'settings'" />
             <Search

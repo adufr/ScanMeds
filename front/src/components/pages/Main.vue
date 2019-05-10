@@ -55,7 +55,7 @@
                   Notifications non lues
                 </div>
                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                  {{ notifications.length > 1 ? notifications.length : 'Aucune' }}
+                  {{ notifications.length >= 1 ? notifications.length : 'Aucune' }}
                 </div>
               </div>
               <div class="col-auto">
@@ -76,7 +76,7 @@
                   Médicaments favoris
                 </div>
                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                  8
+                  {{ favorites.length >= 1 ? favorites.length : 'Aucun' }}
                 </div>
               </div>
               <div class="col-auto">
@@ -184,6 +184,9 @@ export default {
   computed: {
     notifications: function () {
       return this.$attrs.notifications
+    },
+    favorites: function () {
+      return this.$attrs.favorites
     }
   }
 }
