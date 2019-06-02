@@ -22,19 +22,19 @@ Dans le cadre de ce projet, nous avons développé une API et un proxy avec Node
 
 ScanMeds a été développé avec les frameworks et outils suivants :
 
-| Librairie | Version | Description |
-|---------|--------|-------------|
-| [Node.js] | 10.15.3 | Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine. |
-| [Vue.js] | 2.6.10 | Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web. |
-| [Flutter] | 1.5.4 | Flutter allows you to build beautiful native apps on iOS and Android from a single codebase. |
-| [MongoDB] | 3.6.12 | MongoDB is a document database with the scalability and flexibility that you want with the querying and indexing that you need. |
-| [Docker] | 18.09.6 | Docker is a tool designed to make it easier to create, deploy, and run applications by using containers. |
-| [docker-compose] | 1.24.0 | Compose is a tool for defining and running multi-container Docker applications. |
+| Librairie        | Version | Description                                                                                                                     |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| [Node.js]        | 10.15.3 | Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.                                                        |
+| [Vue.js]         | 2.6.10  | Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.                               |
+| [Flutter]        | 1.5.4   | Flutter allows you to build beautiful native apps on iOS and Android from a single codebase.                                    |
+| [MongoDB]        | 3.6.12  | MongoDB is a document database with the scalability and flexibility that you want with the querying and indexing that you need. |
+| [Docker]         | 18.09.6 | Docker is a tool designed to make it easier to create, deploy, and run applications by using containers.                        |
+| [docker-compose] | 1.24.0  | Compose is a tool for defining and running multi-container Docker applications.                                                 |
 
 ## Installation & utilisation
 
 * Pour installer le site web, commencez par installer Docker Community Edition ainsi que docker-compose, puis clonez le repository. Une fois fais, lancez la commande `docker-compose up -d` pour lancer les serveurs de développement en local, ou bien `docker-compose -f docker-compose.prod.yml up` pour lancer le build de production.
-* Pour installer l'application mobile (pour Android), téléchargez le fichier `scanmeds.apk` sur votre SmartPhone, puis executez le. 
+* Pour installer l'application mobile (pour Android), téléchargez le fichier [scanmeds.apk](http://portfolio.arthurdufour.com/ScanMeds.apk) sur votre SmartPhone, puis executez le. 
 
 ## License
 
