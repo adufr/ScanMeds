@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatelessWidget {
   final dynamic med;
@@ -8,32 +9,27 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: getAppBar(), body: getBody(context));
+    return Scaffold(appBar: getAppBar(context), body: getBody(context));
   }
 
   // ===============================================
   // == App bar
   // ===============================================
 
-  AppBar getAppBar() {
-    return new AppBar(
-      elevation: 2.0,
-      title: Text('Détail'),
-      actions: <Widget>[
-        Container(
+  AppBar getAppBar(context) {
+    return new AppBar(elevation: 2.0, title: Text('Détail'), actions: <Widget>[
+      Container(
           margin: EdgeInsets.only(right: 20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              // TODO: favoris
-              // Text('Favoris', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 14.0)),
-              Icon(Icons.favorite, color: Colors.white)
-            ],
-          ),
-        )
-      ],
-    );
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.info_outline),
+                    color: Colors.white,
+                    onPressed: () => _openLink(context))
+              ]))
+    ]);
   }
 
   // ===============================================
@@ -88,8 +84,7 @@ class DetailPage extends StatelessWidget {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       subtitle: Text(_getMedPrice()),
-                      // TODO: popup en savoir plus
-                      trailing: Icon(Icons.info_outline),
+                      trailing: Icon(Icons.help_outline),
                       onTap: () => {
                             _showDialog(
                                 context,
@@ -179,6 +174,39 @@ class DetailPage extends StatelessWidget {
     return string.substring(0, string.length - 1);
   }
 
+  void _openLink(context) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text("Êtes vous sûr ?"),
+              content: Text(
+                  "Vous vous apprêtez à quitter l'application pour ouvrir une page internet.",
+                  textAlign: TextAlign.justify),
+              actions: <Widget>[
+                new FlatButton(
+                    child: new Text("Confirmer"),
+                    onPressed: () async {
+                      String url =
+                          "http://base-donnees-publique.medicaments.gouv.fr/affichageDoc.php?specid=" +
+                              med["codeCIS"] +
+                              "&typedoc=R";
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                      Navigator.of(context).pop();
+                    }),
+                new FlatButton(
+                    child: new Text("Annuler"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    })
+              ]);
+        });
+  }
+
   // ===============================================
   // == Fonctions utiles
   // ===============================================
@@ -192,21 +220,19 @@ class DetailPage extends StatelessWidget {
 
   void _showDialog(context, textTitle, textContent, textButton) {
     showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-            title: Text(textTitle),
-            content: Text(textContent, textAlign: TextAlign.justify),
-            actions: <Widget>[
-              // usually buttons at the bottom of the dialog
-              new FlatButton(
-                child: new Text(textButton),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ]);
-      },
-    );
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text(textTitle),
+              content: Text(textContent, textAlign: TextAlign.justify),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                new FlatButton(
+                    child: new Text(textButton),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    })
+              ]);
+        });
   }
 }
