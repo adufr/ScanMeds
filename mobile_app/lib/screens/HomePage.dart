@@ -85,14 +85,14 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("ScanMeds"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: MedicationSearch());
-            },
-          )
-        ],
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(Icons.search),
+        //     onPressed: () {
+        //       showSearch(context: context, delegate: MedicationSearch());
+        //     },
+        //   )
+        // ],
       ),
       body: AnimatedContainer(
         duration: Duration(seconds: 3),
