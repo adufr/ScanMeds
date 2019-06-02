@@ -95,8 +95,6 @@ class DetailPage extends StatelessWidget {
                           })),
               Card(
                   child: ListTile(
-                      // TODO: change icon
-                      // leading: Icon(Icons.insert_emoticon),
                       title: Text(
                         "Indications thérapeutiques",
                         style: TextStyle(
@@ -106,8 +104,6 @@ class DetailPage extends StatelessWidget {
                       isThreeLine: true)),
               Card(
                   child: ListTile(
-                      // TODO: change icon
-                      // leading: Icon(Icons.insert_emoticon),
                       title: Text(
                         "Conditions de préscription",
                         style: TextStyle(
@@ -226,7 +222,6 @@ class DetailPage extends StatelessWidget {
               title: Text(textTitle),
               content: Text(textContent, textAlign: TextAlign.justify),
               actions: <Widget>[
-                // usually buttons at the bottom of the dialog
                 new FlatButton(
                     child: new Text(textButton),
                     onPressed: () {
