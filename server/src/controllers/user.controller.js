@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
   const _username = req.body.username
   const _email = req.body.email
   const _password = req.body.password
-  const _password2 = req.body.password2
+  const _password2 = req.body.password2 || req.body.password
 
   const errors = []
 
