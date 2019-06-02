@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-import '../components/MedicationSearch.dart';
 import 'DetailPage.dart';
+// import '../components/MedicationSearch.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -108,7 +108,6 @@ class HomePageState extends State<HomePage> {
                 height: 20,
               ),
               Padding(
-                // padding: const EdgeInsets.fromLTRB(24.0, 8, 24, 8),
                 padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                 child: Text("ScanMeds",
                     textAlign: TextAlign.center,
