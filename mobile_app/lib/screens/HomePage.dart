@@ -82,62 +82,78 @@ class HomePageState extends State<HomePage> {
     Color primaryColor = Theme.of(context).primaryColor;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("ScanMeds"),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(Icons.search),
-        //     onPressed: () {
-        //       showSearch(context: context, delegate: MedicationSearch());
-        //     },
-        //   )
-        // ],
-      ),
-      body: AnimatedContainer(
-        duration: Duration(seconds: 3),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                "assets/icon.png",
-                height: size.height * 0.3,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                child: Text("ScanMeds",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 36)),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(24.0, 8, 24, 8),
-                child: Text(
-                    "Scannez le code barre d'une boîte de médicaments pour commencer",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18, color: Colors.black54)),
-              ),
-              SizedBox(
-                height: 60,
-              ),
-              SizedBox(
-                height: 50,
-                width: size.width * 0.6,
-                child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32)),
-                    onPressed: _scanQR,
-                    color: primaryColor,
-                    child: Text("Scanner",
-                        style: TextStyle(color: Colors.white, fontSize: 18))),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+        appBar: AppBar(
+            centerTitle: true,
+            title: Text("ScanMeds"),
+            actions: <Widget>[
+              // IconButton(
+              //   icon: Icon(Icons.search),
+              //   onPressed: () {
+              //     showSearch(context: context, delegate: MedicationSearch());
+              //   },
+              // )
+              IconButton(
+                  padding: EdgeInsets.only(right: 20),
+                  icon: Icon(Icons.account_circle, color: Colors.white),
+                  onPressed: () {
+                    return showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                              title: Text("A venir"),
+                              content: Text(
+                                  "Cette fonctionnalité n'est pas encore disponible...",
+                                  textAlign: TextAlign.justify),
+                              actions: <Widget>[
+                                new FlatButton(
+                                    child: new Text("Fermer"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    })
+                              ]);
+                        });
+                  })
+            ]),
+        body: AnimatedContainer(
+            duration: Duration(seconds: 3),
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                  Image.asset(
+                    "assets/icon.png",
+                    height: size.height * 0.3,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    child: Text("ScanMeds",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 36)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24.0, 8, 24, 8),
+                    child: Text(
+                        "Scannez le code barre d'une boîte de médicaments pour commencer",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18, color: Colors.black54)),
+                  ),
+                  SizedBox(
+                    height: 60,
+                  ),
+                  SizedBox(
+                      height: 50,
+                      width: size.width * 0.6,
+                      child: MaterialButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32)),
+                          onPressed: _scanQR,
+                          color: primaryColor,
+                          child: Text("Scanner",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18))))
+                ]))));
   }
 }

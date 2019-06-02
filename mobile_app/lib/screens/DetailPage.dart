@@ -19,7 +19,7 @@ class DetailPage extends StatelessWidget {
   AppBar getAppBar(context) {
     return new AppBar(elevation: 2.0, title: Text('Détail'), actions: <Widget>[
       Container(
-          margin: EdgeInsets.only(right: 20),
+          margin: EdgeInsets.only(right: 10),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
