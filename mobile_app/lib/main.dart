@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'screens/HomePage.dart';
+import 'screens/LoginPage.dart';
 
 // Main method
 void main() => runApp(MaterialApp(
     // désactivation de la bannière "développement"
     debugShowCheckedModeBanner: false,
-    home: HomePage()));
+    home: LoginPage()));
