@@ -1,6 +1,5 @@
 # app dependencies
 node_modules/
-mobile_app/
 
 # editor configuration
 .vscode/
