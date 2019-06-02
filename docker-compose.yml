@@ -64,6 +64,7 @@ services:
       - ENV=development
     depends_on:
       - server
+      - proxy
     command: npm run serve
 
   proxy:
